@@ -28,7 +28,7 @@ gem "font-awesome-rails"
 # devise provides user authentication
 gem "devise"
 
-# haml replaces erb as the templating tool within rails. 
+# haml replaces erb as the templating tool within rails.
 gem "haml"
 
 
@@ -66,7 +66,6 @@ group :test do
   # used to test the javascript.
   gem "capybara"
   gem "capybara-screenshot"
-  gem "faker"
   gem "poltergeist"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 3.5"
