@@ -12,6 +12,13 @@ Rails.application.configure do
   # Show full error reports.
   config.consider_all_requests_local = true
 
+  # Enable webpack-dev-server running on port 8080 for hot reloading
+  config.action_controller.asset_host = Proc.new { |source|
+    if source =~ /application.js$/i
+      "http://localhost:8080"
+    end
+  }
+
   # Enable/disable caching. By default caching is disabled.
   if Rails.root.join('tmp/caching-dev.txt').exist?
     config.action_controller.perform_caching = true
