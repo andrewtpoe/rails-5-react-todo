@@ -24,5 +24,8 @@ namespace :production do
     sh "bundle exec rails assets:precompile"
     sh "unset SECRET_KEY_BASE"
     sh "unset RAILS_ENV"
+
+    # Add a manifest file to public/assets. This prevents heroku from running the precompile task.
+    sh "touch public/assets/manifest-*.json"
   end
 end
