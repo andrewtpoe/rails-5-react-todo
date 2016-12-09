@@ -1,13 +1,26 @@
+import 'babel-polyfill';
+
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { AppContainer } from 'react-hot-loader';
 
-function application () {
-  const div = document.querySelector('[data-js="app_main"]');
-  if (div) {
-    ReactDOM.render(
-      <h1>Hello, world!</h1>, div
+import Root from './root';
+
+render(
+  <AppContainer>
+    <Root />
+  </AppContainer>,
+  document.querySelector('[data-js="app_main"]')
+);
+
+if (module.hot) {
+  module.hot.accept('./root', () => {
+    const NewRoot = require('./root').default;
+    render(
+      <AppContainer>
+        <NewRoot />
+      </AppContainer>,
+      document.querySelector('[data-js="app_main"]')
     );
-  }
-};
-
-application();
+  });
+}

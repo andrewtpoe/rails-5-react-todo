@@ -1,6 +1,6 @@
 # Rails 5 React TODO
 
-I am putting together this sample project to demonstrate a few techniques that I like using in my Rails projects. My goal is to demonstrate and document setting up an application using Rails as a backend and a React SPA for the front end.
+This sample project demonstrates integrating webpack with the asset pipeline using the latest cutting edge JavaScript tools. The goal is to demonstrate and document setting up an application using Rails as a backend and a React SPA for the front end.
 
 ## Getting started:
 
@@ -64,9 +64,6 @@ You can specify a spec file or location using an environment variable:
     $ bundle exec rails test:rspec SPEC=spec/features/the_application_spec.rb:5
   ```
 
-
-Now that you are familiar with how to work within this application, let me show you how it is set up and explain a bit of why it is configured like this.
-
 ### Deployment
 
 Want to put this app up on Heroku? You will need to build it first. Enter the following command:
@@ -77,6 +74,9 @@ Want to put this app up on Heroku? You will need to build it first. Enter the fo
 
 This will compile the SPA in production mode, then compile the Rails Asset Pipeline. From there it is a simple `git push heroku master` away from being live on your site.
 
+
+Now that you are familiar with how to work within this application, let me show you how it is set up and explain a bit of why it is configured like this.
+
 ## Initialization:
 
 I use a few different configuration options on initialization for this type of application:
@@ -85,7 +85,7 @@ I use a few different configuration options on initialization for this type of a
     $ rails new rails-5-react-todo --skip-test --skip-turbolinks --skip-action-cable --skip-javascript -d postgresql
   ```
 
-After initializing the Rails app, I make a few additional edits before committing for the first time and pushing the core up to GitHub.
+After initializing the Rails app, make a few additional edits before committing for the first time and pushing the core up to GitHub.
 
   - I update the Gemfile to use some of my personal favorites.
   - I initialize NPM.
@@ -94,7 +94,7 @@ After initializing the Rails app, I make a few additional edits before committin
     ```
       $ npm install --save babel-polyfill react react-dom react-redux react-router@next recompose redux redux-thunk whatwg-fetch
 
-      $ npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-0 deep-freeze jasmine karma karma-jasmine karma-phantomjs-launcher karma-spec-reporter karma-webpack react-hot-loader webpack webpack-dev-server
+      $ npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-0 deep-freeze jasmine karma karma-jasmine karma-phantomjs-launcher karma-spec-reporter karma-webpack react-hot-loader@next webpack webpack-dev-server
     ```
 
 ## Configuration:
@@ -107,10 +107,11 @@ There are several configuration and rake task files added to this application th
   - lib/tasks/production.rake
   - lib/tasks/test.rake
   - spec/karma.config.js
+  - asset_host.js
 
 You are welcome to browse these settings and reconfigure them as you'd like.
 
-One of the most interesting things set up at this time is hot reloading of that SPA. It is enabled thanks to the configuration in `config/webpack.dev.config.js` and this section of code in `config/environments/development.rb`:
+One of the most interesting things set up at this time is hot reloading of that SPA. It is enabled thanks to the configuration in `config/webpack.dev.config.js`, `asset_host.js`, and this section of code in `config/environments/development.rb`:
 
   ```
     # Enable webpack-dev-server running on port 8080 for hot reloading
