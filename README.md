@@ -94,7 +94,7 @@ After initializing the Rails app, I make a few additional edits before committin
     ```
       $ npm install --save babel-polyfill react react-dom react-redux react-router@next recompose redux redux-thunk whatwg-fetch
 
-      $ npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-0 deep-freeze jasmine karma karma-jasmine karma-phantomjs-launcher karma-spec-reporter karma-webpack react-hot-loader webpack webpack-dev-server
+      $ npm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react babel-preset-stage-0 deep-freeze jasmine karma karma-jasmine karma-phantomjs-launcher karma-spec-reporter karma-webpack react-hot-loader@next webpack webpack-dev-server
     ```
 
 ## Configuration:
