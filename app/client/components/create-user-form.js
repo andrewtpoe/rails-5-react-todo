@@ -11,23 +11,33 @@ class CreateUserForm extends React.Component {
       user: {
         email: this.emailAddress.value,
         password: this.password.value,
-        // passwordConfirmation: this.passwordConfirmation.value
       }
     }
-    console.log(userInfo);
-    postRequest(url, userInfo);
+    postRequest(url, userInfo)
+      .then(response => {
+        /////////////////////////////////////////////////////
+        //setting cookie for email token
+        console.log(response.body.attributes.email);
+        // document.cookie = `name=${response.body.email}`;
+        ////////////////////////////////////////////////////
+      })
+      .catch(error => {
+        console.log(error);
+      })
   }
 
   render() {
     return (
-      <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
-        <input ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
-        <br/>
-        <input ref={(input) => this.password = input} type='password' placeholder='password' />
-        <br/>
-        <input ref={(input) => this.passwordConfirmation = input} type='password' placeholder='confirm password' />
-        <button type='submit'>Create user</button>
-      </form>
+      <div>
+        Sign Up
+        <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
+          <input ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
+          <br/>
+          <input ref={(input) => this.password = input} type='password' placeholder='password' />
+          <br/>
+          <button type='submit'>Create user</button>
+        </form>
+      </div>
     )
   }
 }

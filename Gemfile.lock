@@ -88,6 +88,7 @@ GEM
     haml (4.0.7)
       tilt
     i18n (0.7.0)
+    jwt (1.5.6)
     launchy (2.4.3)
       addressable (~> 2.3)
     listen (3.0.8)
@@ -227,6 +228,7 @@ DEPENDENCIES
   font-awesome-rails
   foreman
   haml
+  jwt
   listen (~> 3.0.5)
   pg (~> 0.18)
   poltergeist

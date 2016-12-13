@@ -27,6 +27,7 @@ gem "font-awesome-rails"
 
 # devise provides user authentication
 gem "devise"
+gem 'jwt'
 
 # haml replaces erb as the templating tool within rails.
 gem "haml"
