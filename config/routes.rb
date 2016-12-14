@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   # root to: 'application#main'
   post 'auth_user' => 'authentication#authenticate_user'
-  root to: 'welcome#index'
+  get 'welcome' => 'welcome#index'
 
   # User Authorization Routes .................................................
   scope '/api/v1' do

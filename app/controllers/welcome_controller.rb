@@ -1,6 +1,10 @@
 class WelcomeController < ApplicationController
-  before_action :authenticate_request!
+  # before_action :authenticate_request!
   def index
-    render json: {'logged_in' => true}
+    # authenticate_request!
+    if authenticate_request!
+      render json: {'logged_in' => false}
+    else
+    render json: {'logged_in' => false}
   end
 end

@@ -1,6 +1,7 @@
 import 'whatwg-fetch';
 
 const token = document.getElementsByName('csrf-token')[0].content;
+const jwtToken = this.getLocalStorageToken;
 
 function serializeParams (obj, prefix) {
   let str = [], p;
@@ -15,10 +16,10 @@ function serializeParams (obj, prefix) {
   return str.join("&");
 }
 
-export async function getRequest(baseUrl, params = {}) {
+export async function getRequest(baseUrl, params = {}, auth_token) {
   const queryString = serializeParams(params);
   const urlString = `${baseUrl}?${queryString}`;
-
+  console.log(jwtToken);
   let fullResponse;
   const body = await fetch(urlString, {
     credentials: 'include',
@@ -26,6 +27,7 @@ export async function getRequest(baseUrl, params = {}) {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'X-CSRF-Token': token,
+      'Authorization': auth_token;
     },
     method: 'GET',
     mode: 'cors',
