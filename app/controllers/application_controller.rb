@@ -30,4 +30,12 @@ class ApplicationController < ActionController::Base
   def user_id_in_token?
     http_token && auth_token && auth_token[:user_id].to_i
   end
+
+  def payload(user)
+    return nil unless user and user.id
+    {
+      auth_token: JsonWebToken.encode({ user_id: user.id }),
+      user: { id: user.id, email: user.email }
+    }
+  end
 end

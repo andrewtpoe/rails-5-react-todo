@@ -27,9 +27,8 @@ module Api
           # This is the original last line in the devise sessions controller source
           # respond_with resource, location: after_sign_in_path_for(resource)
 
-          # This is custom behavior. If the request is JSON, we need to issue a token.
-          user_presenter = Api::V1::UserPresenter.new(current_user)
-          render json: user_presenter.to_json, status: :created
+          # This is custom behavior.
+          render json: payload(resource), status: :created
         end
 
         # DELETE /resource/sign_out

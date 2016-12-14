@@ -33,8 +33,7 @@ module Api
               # respond_with resource, location: after_sign_up_path_for(resource)
 
               # This is custom behavior. Respond by rendering User Presenter.
-              user_presenter = Api::V1::UserPresenter.new(current_user)
-              render json: user_presenter.to_json, status: :created
+              render json: payload(resource), status: :created
             else
               set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
               expire_data_after_sign_in!

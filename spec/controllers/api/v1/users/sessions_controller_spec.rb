@@ -23,14 +23,14 @@ module Api
                 },
                 format: :json
               }}
-              let(:user_presenter_mock) { double Api::V1::UserPresenter }
+              let(:jwt_mock) { double ApplicationController }
               let(:successful_response) { { status: "success" }.to_json }
 
               before do
-                expect(Api::V1::UserPresenter)
-                  .to receive(:new)
-                  .and_return(user_presenter_mock)
-                expect(user_presenter_mock)
+                expect(controller)
+                  .to receive(:payload)
+                  .and_return(jwt_mock)
+                expect(jwt_mock)
                   .to receive(:to_json)
                   .and_return(successful_response)
               end

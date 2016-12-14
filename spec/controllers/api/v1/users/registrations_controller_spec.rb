@@ -41,14 +41,15 @@ module Api
                 expect(response).to have_http_status 201
               end
 
-              it "initializes user presenter and renders the value of .to_json" do
-                user_presenter_mock = double Api::V1::UserPresenter
+              it "initializes JWT and renders .to_json" do
+                # user_presenter_mock = double Api::V1::UserPresenter
+                jwt_mock = double ApplicationController
                 successful_response = { status: "success" }.to_json
 
-                expect(Api::V1::UserPresenter)
-                  .to receive(:new)
-                  .and_return(user_presenter_mock)
-                expect(user_presenter_mock)
+                expect(controller)
+                  .to receive(:payload)
+                  .and_return(jwt_mock)
+                expect(jwt_mock)
                   .to receive(:to_json)
                   .and_return(successful_response)
 
