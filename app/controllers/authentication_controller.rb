@@ -1,4 +1,6 @@
 class AuthenticationController < Api::V1::BaseController
+
+  private
   def authenticate_user
     user = User.find_for_database_authentication(email: params[:email])
     if user.valid_password?(params[:password])
