@@ -29,12 +29,7 @@ module Api
 
           # This is custom behavior.
           # render json: { resource: params[:user][:email] }#payload(self.resource), status: :created
-          user = User.find_for_database_authentication(email: params[:user][:email])
-          if user.valid_password?(params[:user][:password])
-            render json: payload(user)
-          else
-            render json: { errors: ['Invalid Username / Password'] }, status: unauthorized
-          end
+          return authenticate_user
         end
 
         # DELETE /resource/sign_out

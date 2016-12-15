@@ -6,6 +6,16 @@ class ApplicationController < ActionController::Base
   end
 
   private
+  def authenticate_user
+    user = User.find_for_database_authentication(email: params[:user][:email]) || User.find_for_database_authentication(email: params[:email])
+    password_params = params[:user][:password] || params[:password]
+    if user.valid_password?(password_params)
+      render json: payload(user)
+    else
+      render json: { errors: ['Invalid Username / Password'] }, status: unauthorized
+    end
+  end
+
   def authenticate_request!
     unless user_id_in_token?
       render json: { errors: ['Not Authenticated No User ID In Token'] }, status: :unauthorized
