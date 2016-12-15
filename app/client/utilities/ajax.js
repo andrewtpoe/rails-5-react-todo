@@ -25,7 +25,7 @@ export async function getRequest(baseUrl, params = {}, auth_token) {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'X-CSRF-Token': token,
-      'Authorization': auth_token
+      'Authorization': `Bearer ${auth_token}`
     },
     method: 'GET',
     mode: 'cors',

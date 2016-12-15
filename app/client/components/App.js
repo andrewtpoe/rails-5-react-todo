@@ -1,8 +1,19 @@
 import React from 'react';
-import CreateUserForm from './create-user-form';
+import CreateUserForm from './CreateUserForm';
 class App extends React.Component {
+
+  state = {
+    signedIn: false
+  }
+
+  setUserSignedIn() {
+    this.setState(
+      {signedIn: !signedIn}
+    )
+  }
+
   render() {
-    return <CreateUserForm />
+    return <CreateUserForm signedIn={this.state.signedIn}/>
   }
 }
 

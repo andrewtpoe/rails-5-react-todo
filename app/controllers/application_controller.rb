@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def http_token
     if request.headers["HTTP_AUTHORIZATION"].present?
-      request.headers["HTTP_AUTHORIZATION"]
+      request.headers["HTTP_AUTHORIZATION"].split(' ').last
     end
   end
 

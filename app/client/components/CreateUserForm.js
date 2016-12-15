@@ -10,6 +10,10 @@ class CreateUserForm extends React.Component {
     this.checkWorks = this.checkWorks.bind(this);
   }
 
+  getSignUpFormState() {
+    return {signUpForm: !this.props.state.signedIn};
+  }
+
   createUser(event) {
     event.preventDefault();
     const url = this.state.signUpForm ? 'api/v1/users/' : 'api/v1/users/sign_in';
@@ -31,27 +35,46 @@ class CreateUserForm extends React.Component {
 
   setLocalStorage(jwtToken) {
     // console.log(jwtToken);
-    localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
+    localStorage.setItem('jwt', JSON.stringify(jwtToken));
   }
 
   checkWorks() {
-    getRequest('welcome/', {}, this.getLocalStorageToken())
+    let token = this.getLocalStorageToken();
+    if (token === undefined) {
+      console.log('noToken');
+      return;
+    }
+    getRequest('welcome/', {}, token)
       .then(response => {
         console.log(response);
       })
   }
 
   getLocalStorageToken() {
-    const token = JSON.parse(localStorage.getItem('jwtToken'));
-    console.log(token.auth_token);
-    return token.auth_token || '';
+    const token = JSON.parse(localStorage.getItem('jwt'));
+    if (token === null) {
+      console.log('noToken');
+      return;
+    }
+    return token.auth_token;
   }
 
   toggleSignInSignUp() {
     console.log("in toggle");
     console.log(this.state.signUpForm);
+    this.props.setUserSignedIn;
     this.setState({signUpForm: !this.state.signUpForm});
   }
+
+  returnNoTokenError() {
+    console.log('No token!');
+  }
+
+  deleteLocalStorageToken() {
+    localStorage.removeItem('jwt');
+    return;
+  }
+
 
   render() {
     const signUp = this.state.signUpForm;
@@ -71,6 +94,7 @@ class CreateUserForm extends React.Component {
           </form>
         </div>
         <div><button onClick={this.checkWorks}>checkWorks</button></div>
+        <div><button onClick={this.deleteLocalStorageToken}>Sign Out</button></div>
       </div>
     )
   }
