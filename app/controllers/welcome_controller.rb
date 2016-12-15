@@ -3,8 +3,7 @@ class WelcomeController < ApplicationController
   def index
     # authenticate_request!
     if authenticate_request!
-      render json: {'logged_in' => false}
-    else
-    render json: {'logged_in' => false}
+      render json: {logged_in: 'true'}
+    end
   end
 end

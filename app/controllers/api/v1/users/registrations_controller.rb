@@ -34,6 +34,7 @@ module Api
 
               # This is custom behavior. Respond by rendering User Presenter.
               render json: payload(resource), status: :created
+              # render json: {current_user: resource.id}
             else
               set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
               expire_data_after_sign_in!

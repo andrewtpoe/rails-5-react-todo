@@ -1,12 +1,13 @@
 //url -X POST -H 'Content-Type: application/json' -d '{"user":{"email":"kitter@gmail.com","password":"password"}}' todo.dev/api/v1/users/
 import React from 'react';
-import { postRequest } from '../utilities/ajax';
+import { getRequest, postRequest } from '../utilities/ajax';
 
 class CreateUserForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {signUpForm: true};
     this.toggleSignInSignUp = this.toggleSignInSignUp.bind(this);
+    this.checkWorks = this.checkWorks.bind(this);
   }
 
   createUser(event) {
@@ -33,7 +34,18 @@ class CreateUserForm extends React.Component {
     localStorage.setItem('jwtToken', JSON.stringify(jwtToken));
   }
 
+  checkWorks() {
+    getRequest('welcome/', {}, this.getLocalStorageToken())
+      .then(response => {
+        console.log(response);
+      })
+  }
 
+  getLocalStorageToken() {
+    const token = JSON.parse(localStorage.getItem('jwtToken'));
+    console.log(token.auth_token);
+    return token.auth_token || '';
+  }
 
   toggleSignInSignUp() {
     console.log("in toggle");
@@ -47,15 +59,18 @@ class CreateUserForm extends React.Component {
     const logInText = 'Log In';
     return (
       <div>
-        {signUp ? signUpText : logInText}
-        <button onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
-        <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
-          <input ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
-          <br/>
-          <input ref={(input) => this.password = input} type='password' placeholder='password' />
-          <br/>
-          <button type='submit'>{signUp ? signUpText : logInText}</button>
-        </form>
+        <div>
+          {signUp ? signUpText : logInText}
+          <button onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
+          <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
+            <input ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
+            <br/>
+            <input ref={(input) => this.password = input} type='password' placeholder='password' />
+            <br/>
+            <button type='submit'>{signUp ? signUpText : logInText}</button>
+          </form>
+        </div>
+        <div><button onClick={this.checkWorks}>checkWorks</button></div>
       </div>
     )
   }
