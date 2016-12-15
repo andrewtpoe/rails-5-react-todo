@@ -27,8 +27,8 @@ module Api
           yield resource if block_given?
           if resource.persisted?
             if resource.active_for_authentication?
-              set_flash_message! :notice, :signed_up
-              sign_up(resource_name, resource)
+              # set_flash_message! :notice, :signed_up
+              # sign_up(resource_name, resource)
               # This is the original last line in the devise sessions controller source
               # respond_with resource, location: after_sign_up_path_for(resource)
 
@@ -58,9 +58,9 @@ module Api
         # end
 
         # DELETE /resource
-        # def destroy
-        #   super
-        # end
+        def destroy
+          super
+        end
 
         # GET /resource/cancel
         # Forces the session data which is usually expired after sign
