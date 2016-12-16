@@ -5,9 +5,10 @@ class YoureSignedIn extends React.Component {
   constructor(props) {
     super(props);
     this.checkWorks = this.checkWorks.bind(this);
-    this.deleteLocalStorageToken = this.deleteLocalStorageToken.bind(this);
   }
-
+///////////////////////////////////
+//checkWorksCanBeDeleted and getLocalStorageToken can be deleted after testing
+//////////////////////////////////
   checkWorks() {
     let token = this.getLocalStorageToken();
     if (token === undefined) {
@@ -28,11 +29,14 @@ class YoureSignedIn extends React.Component {
     }
     return token.auth_token;
   }
+  ///////////////////////////////////
+  //checkWorksCanBeDeleted and getLocalStorageToken can be deleted after testing
+  //////////////////////////////////
 
-  deleteLocalStorageToken() {
-    localStorage.removeItem('jwt');
-    this.props.toggleUserSignedIn();
-  }
+  // deleteLocalStorageToken() {
+  //   localStorage.removeItem('jwt');
+  //   this.props.toggleUserSignedIn();
+  // }
 
   render() {
     return (
@@ -40,11 +44,15 @@ class YoureSignedIn extends React.Component {
         <div className="u-center-block__content">
           <h1>Welcome!  You are signed in!</h1>
           <div><button className="c-button c-button--brand c-button--block" onClick={this.checkWorks}>checkWorks</button></div>
-          <div><button className="c-button c-button--brand c-button--block" onClick={this.deleteLocalStorageToken}>Sign Out</button></div>
+          <div><button className="c-button c-button--brand c-button--block" onClick={this.props.deleteLocalStorageToken}>Sign Out</button></div>
         </div>
       </main>
     )
   }
+}
+
+YoureSignedIn.propTypes = {
+  deleteLocalStorageToken: React.PropTypes.func.isRequired,
 }
 
 export default YoureSignedIn;

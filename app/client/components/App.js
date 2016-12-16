@@ -8,6 +8,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.toggleUserSignedIn = this.toggleUserSignedIn.bind(this);
+    this.deleteLocalStorageToken = this.deleteLocalStorageToken.bind(this);
   }
 
   state = {
@@ -52,9 +53,14 @@ class App extends React.Component {
     )
   };
 
+  deleteLocalStorageToken() {
+    localStorage.removeItem('jwt');
+    this.toggleUserSignedIn();
+  }
+
   render() {
     return (
-      this.state.signedIn ? <YoureSignedIn signedIn={this.state.signedIn} toggleUserSignedIn={this.toggleUserSignedIn} /> : <CreateOrLoginUserForm signedIn={this.state.signedIn} toggleUserSignedIn={this.toggleUserSignedIn}/ >
+      this.state.signedIn ? <YoureSignedIn deleteLocalStorageToken={this.deleteLocalStorageToken}/> : <CreateOrLoginUserForm signedIn={this.state.signedIn} toggleUserSignedIn={this.toggleUserSignedIn}/ >
     )
   }
 }

@@ -8,7 +8,7 @@ class CreateUserForm extends React.Component {
     this.toggleSignInSignUp = this.toggleSignInSignUp.bind(this);
   }
 
-  createLoginUser(event) {
+  createOnLoginUser(event) {
     event.preventDefault();
     const url = this.state.signUpForm ? 'api/v1/users/' : 'api/v1/users/sign_in';
     const userInfo = {
@@ -19,8 +19,10 @@ class CreateUserForm extends React.Component {
     }
     postRequest(url, userInfo)
       .then(response => {
-        this.setLocalStorage(response.body);
-        this.props.toggleUserSignedIn();
+        if(response.body.auth_token) {
+          this.setLocalStorage(response.body);
+          this.props.toggleUserSignedIn();
+        }
       })
       .catch(error => {
         console.log(error);
@@ -44,7 +46,7 @@ class CreateUserForm extends React.Component {
         <div className="u-center-block__content">
           <h1 className='u-centered c-heading'>{signUp ? signUpText : logInText}</h1>
           <button className="c-button c-button--brand c-button--block" onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
-          <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createLoginUser(e)}>
+          <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createOnLoginUser(e)}>
             <div className='o-form-element'>
               <div className="c-input-group c-input-group--stacked">
                 <div className="o-field">
@@ -65,8 +67,9 @@ class CreateUserForm extends React.Component {
   }
 }
 
-CreateUserForm.PropTypes = {
+CreateUserForm.propTypes = {
   signedIn: React.PropTypes.bool.isRequired,
+  toggleUserSignedIn: React.PropTypes.func.isRequired,
 }
 
 export default CreateUserForm;
