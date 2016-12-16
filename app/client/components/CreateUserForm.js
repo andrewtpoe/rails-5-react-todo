@@ -26,6 +26,8 @@ class CreateUserForm extends React.Component {
     postRequest(url, userInfo)
       .then(response => {
         this.setLocalStorage(response.body);
+        this.props.toggleUserSignedIn();
+        // console.log(this.props.signedIn);
         //Go to new componenet
       })
       .catch(error => {
@@ -61,8 +63,7 @@ class CreateUserForm extends React.Component {
 
   toggleSignInSignUp() {
     console.log("in toggle");
-    console.log(this.state.signUpForm);
-    this.props.setUserSignedIn;
+    console.log("sign up form", this.state.signUpForm);
     this.setState({signUpForm: !this.state.signUpForm});
   }
 
@@ -80,6 +81,7 @@ class CreateUserForm extends React.Component {
     const signUp = this.state.signUpForm;
     const signUpText = 'Sign Up';
     const logInText = 'Log In';
+    console.log('signed in', this.props.signedIn);
     return (
       <div>
         <div>
