@@ -10,10 +10,6 @@ class CreateUserForm extends React.Component {
     this.checkWorks = this.checkWorks.bind(this);
   }
 
-  getSignUpFormState() {
-    return {signUpForm: !this.props.state.signedIn};
-  }
-
   createUser(event) {
     event.preventDefault();
     const url = this.state.signUpForm ? 'api/v1/users/' : 'api/v1/users/sign_in';
@@ -62,8 +58,6 @@ class CreateUserForm extends React.Component {
   }
 
   toggleSignInSignUp() {
-    console.log("in toggle");
-    console.log("sign up form", this.state.signUpForm);
     this.setState({signUpForm: !this.state.signUpForm});
   }
 
@@ -75,7 +69,6 @@ class CreateUserForm extends React.Component {
     localStorage.removeItem('jwt');
     return;
   }
-
 
   render() {
     const signUp = this.state.signUpForm;
@@ -100,6 +93,10 @@ class CreateUserForm extends React.Component {
       </div>
     )
   }
+}
+
+CreateUserForm.PropTypes = {
+  signedIn: React.PropTypes.bool.isRequired,
 }
 
 export default CreateUserForm;
