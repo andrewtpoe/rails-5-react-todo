@@ -1,7 +1,6 @@
 //url -X POST -H 'Content-Type: application/json' -d '{"user":{"email":"kitter@gmail.com","password":"password"}}' todo.dev/api/v1/users/
 import React from 'react';
 import { getRequest, postRequest } from '../utilities/ajax';
-import '../css/CreateUserForm.css';
 
 class CreateUserForm extends React.Component {
   constructor(props) {
