@@ -1,6 +1,7 @@
 //url -X POST -H 'Content-Type: application/json' -d '{"user":{"email":"kitter@gmail.com","password":"password"}}' todo.dev/api/v1/users/
 import React from 'react';
 import { getRequest, postRequest } from '../utilities/ajax';
+import '../css/CreateUserForm.css';
 
 class CreateUserForm extends React.Component {
   constructor(props) {
@@ -76,21 +77,29 @@ class CreateUserForm extends React.Component {
     const logInText = 'Log In';
     console.log('signed in', this.props.signedIn);
     return (
-      <div>
-        <div>
-          {signUp ? signUpText : logInText}
+      <main className="u-center_block">
+        <div className="u-center-block__content">
+          <h1 className='c-heading'>{signUp ? signUpText : logInText}</h1>
           <button onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
           <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
-            <input ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
-            <br/>
-            <input ref={(input) => this.password = input} type='password' placeholder='password' />
-            <br/>
-            <button type='submit'>{signUp ? signUpText : logInText}</button>
+            <div className='o-form-element'>
+              <div className="c-input-group c-input-group--stacked">
+                <div className="o-field">
+                <input className="c-field" ref={(input) => this.emailAddress = input} type='text' placeholder='email address' />
+                </div>
+              <div className="o-field">
+                <input className="c-field" ref={(input) => this.password = input} type='password' placeholder='password' />
+                </div>
+              </div>
+              <div className="o-form-element">
+                <button className="c-button c-button--brand c-button--block" type='submit'>{signUp ? signUpText : logInText}</button>
+              </div>
+            </div>
           </form>
         </div>
         <div><button onClick={this.checkWorks}>checkWorks</button></div>
         <div><button onClick={this.deleteLocalStorageToken}>Sign Out</button></div>
-      </div>
+      </main>
     )
   }
 }
