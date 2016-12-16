@@ -1,16 +1,14 @@
-//url -X POST -H 'Content-Type: application/json' -d '{"user":{"email":"kitter@gmail.com","password":"password"}}' todo.dev/api/v1/users/
 import React from 'react';
-import { getRequest, postRequest } from '../utilities/ajax';
+import { postRequest } from '../utilities/ajax';
 
 class CreateUserForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {signUpForm: true};
     this.toggleSignInSignUp = this.toggleSignInSignUp.bind(this);
-    this.checkWorks = this.checkWorks.bind(this);
   }
 
-  createUser(event) {
+  createLoginUser(event) {
     event.preventDefault();
     const url = this.state.signUpForm ? 'api/v1/users/' : 'api/v1/users/sign_in';
     const userInfo = {
@@ -23,8 +21,6 @@ class CreateUserForm extends React.Component {
       .then(response => {
         this.setLocalStorage(response.body);
         this.props.toggleUserSignedIn();
-        // console.log(this.props.signedIn);
-        //Go to new componenet
       })
       .catch(error => {
         console.log(error);
@@ -32,55 +28,23 @@ class CreateUserForm extends React.Component {
   }
 
   setLocalStorage(jwtToken) {
-    // console.log(jwtToken);
     localStorage.setItem('jwt', JSON.stringify(jwtToken));
-  }
-
-  checkWorks() {
-    let token = this.getLocalStorageToken();
-    if (token === undefined) {
-      console.log('noToken');
-      return;
-    }
-    getRequest('welcome/', {}, token)
-      .then(response => {
-        console.log(response);
-      })
-  }
-
-  getLocalStorageToken() {
-    const token = JSON.parse(localStorage.getItem('jwt'));
-    if (token === null) {
-      console.log('noToken');
-      return;
-    }
-    return token.auth_token;
   }
 
   toggleSignInSignUp() {
     this.setState({signUpForm: !this.state.signUpForm});
   }
 
-  returnNoTokenError() {
-    console.log('No token!');
-  }
-
-  deleteLocalStorageToken() {
-    localStorage.removeItem('jwt');
-    return;
-  }
-
   render() {
     const signUp = this.state.signUpForm;
     const signUpText = 'Sign Up';
     const logInText = 'Log In';
-    console.log('signed in', this.props.signedIn);
     return (
       <main className="u-center_block">
         <div className="u-center-block__content">
-          <h1 className='c-heading'>{signUp ? signUpText : logInText}</h1>
-          <button onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
-          <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createUser(e)}>
+          <h1 className='u-centered c-heading'>{signUp ? signUpText : logInText}</h1>
+          <button className="c-button c-button--brand c-button--block" onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
+          <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createLoginUser(e)}>
             <div className='o-form-element'>
               <div className="c-input-group c-input-group--stacked">
                 <div className="o-field">
@@ -96,8 +60,6 @@ class CreateUserForm extends React.Component {
             </div>
           </form>
         </div>
-        <div><button onClick={this.checkWorks}>checkWorks</button></div>
-        <div><button onClick={this.deleteLocalStorageToken}>Sign Out</button></div>
       </main>
     )
   }
