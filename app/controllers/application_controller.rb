@@ -7,8 +7,9 @@ class ApplicationController < ActionController::Base
 
   private
   def authenticate_user
-    user = User.find_for_database_authentication(email: params[:user][:email]) || User.find_for_database_authentication(email: params[:email])
-    password_params = params[:user][:password] || params[:password]
+    user_params = params[:user] ? params[:user][:email] : params[:email]
+    user = User.find_for_database_authentication(email: user_params)
+    password_params = params[:user] ? params[:user][:password] : params[:password]
     if user.valid_password?(password_params)
       render json: payload(user)
     else

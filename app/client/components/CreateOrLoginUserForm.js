@@ -2,11 +2,17 @@ import React from 'react';
 import { postRequest } from '../utilities/ajax';
 
 class CreateUserForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {signUpForm: true};
-    this.toggleSignInSignUp = this.toggleSignInSignUp.bind(this);
-  }
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {signUpForm: true};
+  //   this.toggleSignInSignUp = this.toggleSignInSignUp.bind(this);
+  // }
+
+  state = (() => {
+    return {
+      signUpForm: true,
+    };
+  })();
 
   createOnLoginUser(event) {
     event.preventDefault();
@@ -37,6 +43,26 @@ class CreateUserForm extends React.Component {
     this.setState({signUpForm: !this.state.signUpForm});
   }
 
+  _buildButton() {
+    const {
+      signUpForm,
+    } = this.state;
+    const signUpText = 'Sign Up';
+    const logInText = 'Log In';
+    const text = signUpForm ? `Switch to ${logInText}` : `Switch to ${signUpText}`;
+    return (
+      <button
+        className="c-button c-button--brand c-button--block"
+        onClick={(e) => {
+          e.preventDefault();
+          this.toggleSignInSignUp();
+        }}
+      >
+        {text}
+      </button>
+    );
+  }
+
   render() {
     const signUp = this.state.signUpForm;
     const signUpText = 'Sign Up';
@@ -45,7 +71,7 @@ class CreateUserForm extends React.Component {
       <main className="u-center_block">
         <div className="u-center-block__content">
           <h1 className='u-centered c-heading'>{signUp ? signUpText : logInText}</h1>
-          <button className="c-button c-button--brand c-button--block" onClick={this.toggleSignInSignUp}>Switch to {signUp ? logInText : signUpText}</button>
+          {this._buildButton()}
           <form ref={(input) => this.userInfo = input} className='' onSubmit={(e) => this.createOnLoginUser(e)}>
             <div className='o-form-element'>
               <div className="c-input-group c-input-group--stacked">

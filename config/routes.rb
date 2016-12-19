@@ -14,7 +14,9 @@ Rails.application.routes.draw do
         sessions: 'api/v1/users/sessions',
       },
       skip: [:passwords, :confirmations, :unlocks]
-    }
+    } do
+      # get 'auth_user' => 'api/v1/users/token_authentication#authenticate_user'
+    end
   end
 
   # API - V1 ..................................................................
