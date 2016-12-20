@@ -25,6 +25,7 @@ Rails.application.routes.draw do
       resource :user, except: [:index, :new, :edit]
 
       match '*path', to: 'users#show', via: [:options]
+      get 'welcome' => 'welcome#index'
     end
   end
 

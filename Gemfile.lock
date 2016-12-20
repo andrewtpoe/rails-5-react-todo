@@ -68,6 +68,7 @@ GEM
     cliver (0.3.2)
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
+    database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
       bcrypt (~> 3.0)
@@ -225,6 +226,7 @@ DEPENDENCIES
   blaze-css-rails
   capybara
   capybara-screenshot
+  database_cleaner
   devise
   font-awesome-rails
   foreman
