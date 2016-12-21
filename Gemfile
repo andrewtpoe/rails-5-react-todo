@@ -72,6 +72,7 @@ group :test do
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 3.5"
   gem "database_cleaner"
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 

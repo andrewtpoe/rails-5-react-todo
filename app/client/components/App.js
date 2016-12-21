@@ -29,7 +29,7 @@ class App extends React.Component {
       console.log('noToken');
       return;
     }
-    getRequest('welcome/', {}, token)
+    getRequest('api/v1/welcome/', {}, token)
       .then(response => {
         if(response.body.logged_in) {this.toggleUserSignedIn()}
       }).catch(error => {

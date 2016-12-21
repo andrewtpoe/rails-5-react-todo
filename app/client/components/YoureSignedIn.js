@@ -15,7 +15,7 @@ class YoureSignedIn extends React.Component {
       console.log('noToken');
       return;
     }
-    getRequest('welcome/', {}, token)
+    getRequest('api/v1/welcome/', {}, token)
       .then(response => {
         console.log(response);
       })
