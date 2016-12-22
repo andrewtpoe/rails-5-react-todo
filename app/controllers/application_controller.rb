@@ -5,14 +5,13 @@ class ApplicationController < ActionController::Base
   def main
   end
 
-
   private
   def authenticate_user
     user = User.find_for_database_authentication(email: params[:user][:email])
-    if user.valid_password?(params[:user][:password])
+    if !user.nil? && user.valid_password?(params[:user][:password])
       render json: payload(user)
     else
-      render json: { errors: ['Invalid Username / Password'] }, status: unauthorized
+      render json: { errors: ['Invalid Email / Password'] }, status: :unauthorized
     end
   end
 
@@ -26,7 +25,6 @@ class ApplicationController < ActionController::Base
     render json: { errors: [auth_token] }, status: :unauthorized
   end
 
-
   def http_token
     if request.headers["HTTP_AUTHORIZATION"].present?
       request.headers["HTTP_AUTHORIZATION"].split(' ').last
@@ -34,7 +32,7 @@ class ApplicationController < ActionController::Base
   end
 
   def auth_token
-    JsonWebToken.decode(http_token)
+    @auth_token ||= JsonWebToken.decode(http_token)
   end
 
   def user_id_in_token?

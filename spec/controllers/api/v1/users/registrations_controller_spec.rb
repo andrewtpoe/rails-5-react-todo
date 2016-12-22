@@ -30,32 +30,16 @@ module Api
                 }.by 1
               end
 
-              it "signs in the user" do
-                post :create, params: params
-                user = User.find_by(email: "unique_email@gmail.com")
-                expect(user.current_sign_in_at).to be_truthy
-              end
-
               it "returns a status 201" do
                 post :create, params: params
                 expect(response).to have_http_status 201
               end
 
-              it "initializes JWT and renders .to_json" do
-                # user_presenter_mock = double Api::V1::UserPresenter
-                jwt_mock = double ApplicationController
-                successful_response = { status: "success" }.to_json
-
-                expect(controller)
-                  .to receive(:payload)
-                  .and_return(jwt_mock)
-                expect(jwt_mock)
-                  .to receive(:to_json)
-                  .and_return(successful_response)
-
+              let(:expected_valid_token) { "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.__axIF2iO7Ng_Z9DZ-XnGyrjpdELL4X5OOsQ-xSn-bo" }
+              it "returns a valid JWT" do
                 post :create, params: params
-
-                expect(response.body).to eq successful_response
+                body = JSON.parse(response.body).with_indifferent_access
+                expect(body['auth_token']).to eq expected_valid_token
               end
             end
 
@@ -77,9 +61,14 @@ module Api
                   }
                 end
 
-                it "returns an error with a status 422" do
+                it "returns a status 422" do
                   post :create, params: params
                   expect(response).to have_http_status 422
+                end
+
+
+                it "returns an error" do
+                  post :create, params: params
                   body = JSON.parse(response.body).with_indifferent_access
                   expect(body[:errors][:email]).to eq ["is invalid"]
                 end
@@ -102,9 +91,13 @@ module Api
                   }
                 end
 
-                it "returns an error with a status 422" do
+                it "returns a status 422" do
                   post :create, params: params
                   expect(response).to have_http_status 422
+                end
+
+                it "returns an error" do
+                  post :create, params: params
                   body = JSON.parse(response.body).with_indifferent_access
                   expect(body[:errors][:password]).to eq ["is too short (minimum is 8 characters)"]
                 end
@@ -113,13 +106,13 @@ module Api
           end
 
           context "with an existing user" do
-            let!(:user) { User.create(email: "first@gmail.com", password: "password") }
+            let!(:user) { create(:user) }
 
             context "and valid login params" do
               let(:params) {{
                 user: {
                   email: user.email,
-                  password: "password"
+                  password: user.password
                 },
                 format: :json
               }}
@@ -130,9 +123,13 @@ module Api
                 expect(user.current_sign_in_at).to be_falsy
               end
 
-              it "renders an error with a status 422" do
+              it "returns a status 422" do
                 post :create, params: params
                 expect(response).to have_http_status 422
+              end
+
+              it "returns an error" do
+                post :create, params: params
                 body = JSON.parse(response.body).with_indifferent_access
                 expect(body[:errors][:email]).to eq ["has already been taken"]
               end
@@ -153,9 +150,13 @@ module Api
                 expect(user.current_sign_in_at).to be_falsy
               end
 
-              it "returns an error with a status 422" do
+              it "returns a status 422" do
                 post :create, params: params
                 expect(response).to have_http_status 422
+              end
+
+              it "returns an error" do
+                post :create, params: params
                 body = JSON.parse(response.body).with_indifferent_access
                 expect(body[:errors][:email]).to eq ["has already been taken"]
               end

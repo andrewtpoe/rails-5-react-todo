@@ -3,7 +3,6 @@ require "rails_helper"
 module Api
   module V1
     RSpec.describe WelcomeController do
-
       describe '#index' do
         context 'when JWT is incorrect' do
           let(:not_authenticated_response) {["Not Authenticated No User ID In Token"]}
@@ -79,7 +78,6 @@ module Api
           it 'responds with JSON' do
             expect(response.header['Content-Type']).to include "application/json"
           end
-
         end
       end
     end
