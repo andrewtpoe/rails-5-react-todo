@@ -2,15 +2,11 @@ import React from 'react';
 import { getRequest } from '../utilities/ajax';
 
 class YoureSignedIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.checkWorks = this.checkWorks.bind(this);
-  }
 ///////////////////////////////////
-//checkWorksCanBeDeleted and getLocalStorageToken can be deleted after testing
+//checkWorks can be deleted after testing
 //////////////////////////////////
   checkWorks() {
-    let token = this.getLocalStorageToken();
+    let token = this.props.getJWTFromLocalStorage();
     if (token === undefined) {
       console.log('noToken');
       return;
@@ -21,29 +17,16 @@ class YoureSignedIn extends React.Component {
       })
   }
 
-  getLocalStorageToken() {
-    const token = JSON.parse(localStorage.getItem('jwt'));
-    if (token === null) {
-      console.log('noToken');
-      return;
-    }
-    return token.auth_token;
-  }
   ///////////////////////////////////
-  //checkWorksCanBeDeleted and getLocalStorageToken can be deleted after testing
+  //checkWorks can be deleted after testing
   //////////////////////////////////
-
-  // deleteLocalStorageToken() {
-  //   localStorage.removeItem('jwt');
-  //   this.props.toggleUserSignedIn();
-  // }
 
   render() {
     return (
       <main className="u-center_block">
         <div className="u-center-block__content">
           <h1>Welcome!  You are signed in!</h1>
-          <div><button className="c-button c-button--brand c-button--block" onClick={this.checkWorks}>checkWorks</button></div>
+          <div><button className="c-button c-button--brand c-button--block" onClick={(e) => this.checkWorks()}>checkWorks</button></div>
           <div><button className="c-button c-button--brand c-button--block" onClick={this.props.deleteLocalStorageToken}>Sign Out</button></div>
         </div>
       </main>

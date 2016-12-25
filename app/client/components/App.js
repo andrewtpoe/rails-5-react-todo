@@ -5,12 +5,6 @@ import { getRequest } from '../utilities/ajax'
 
 class App extends React.Component {
 
-  constructor() {
-    super();
-    this.toggleUserSignedIn = this.toggleUserSignedIn.bind(this);
-    this.deleteLocalStorageToken = this.deleteLocalStorageToken.bind(this);
-  }
-
   state = {
     signedIn: false
   }
@@ -46,12 +40,12 @@ class App extends React.Component {
     return token.auth_token;
   }
 
-  toggleUserSignedIn = () => {
+  toggleUserSignedIn() {
     console.log('intoggle');
     this.setState(
       {signedIn: !this.state.signedIn}
     )
-  };
+  }
 
   deleteLocalStorageToken() {
     localStorage.removeItem('jwt');
@@ -60,7 +54,9 @@ class App extends React.Component {
 
   render() {
     return (
-      this.state.signedIn ? <YoureSignedIn deleteLocalStorageToken={this.deleteLocalStorageToken}/> : <CreateOrLoginUserForm signedIn={this.state.signedIn} toggleUserSignedIn={this.toggleUserSignedIn}/ >
+      this.state.signedIn ?
+       <YoureSignedIn deleteLocalStorageToken={(e) => this.deleteLocalStorageToken()} getJWTFromLocalStorage={this.getJWTFromLocalStorage}/> :
+      <CreateOrLoginUserForm signedIn={this.state.signedIn} toggleUserSignedIn={(e) => this.toggleUserSignedIn()}/ >
     )
   }
 }
