@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root to: 'application#main'
+  # root to: 'application#main'
+  post 'auth_user' => 'authentication#authenticate_user'
+  get 'welcome' => 'welcome#index'
 
   # User Authorization Routes .................................................
   scope '/api/v1' do
@@ -12,7 +14,9 @@ Rails.application.routes.draw do
         sessions: 'api/v1/users/sessions',
       },
       skip: [:passwords, :confirmations, :unlocks]
-    }
+    } do
+      # get 'auth_user' => 'api/v1/users/token_authentication#authenticate_user'
+    end
   end
 
   # API - V1 ..................................................................
@@ -21,6 +25,7 @@ Rails.application.routes.draw do
       resource :user, except: [:index, :new, :edit]
 
       match '*path', to: 'users#show', via: [:options]
+      get 'welcome' => 'welcome#index'
     end
   end
 

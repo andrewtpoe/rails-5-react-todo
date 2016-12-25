@@ -27,6 +27,8 @@ gem "font-awesome-rails"
 
 # devise provides user authentication
 gem "devise"
+gem 'jwt'
+# gem 'rack-cors', :require => 'rack/cors'
 
 # haml replaces erb as the templating tool within rails.
 gem "haml"
@@ -69,6 +71,8 @@ group :test do
   gem "poltergeist"
   gem "rails-controller-testing"
   gem "rspec-rails", "~> 3.5"
+  gem "database_cleaner"
+  gem "factory_girl_rails", "~> 4.0"
 end
 
 

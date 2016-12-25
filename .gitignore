@@ -19,7 +19,7 @@
 
 # Files specific to this application the should be ignored.
 .powder
-# This is the compiled version of the SPA within the asset pipeline. 
+# This is the compiled version of the SPA within the asset pipeline.
 app/assets/javascripts/application.js
 
 # Created by https://www.gitignore.io/api/rails,node,osx,git,macos,ruby,sass

@@ -1,2 +1,2 @@
-web_1: yard server -p 9000 --reload
+web_1: yard server -p 9090 --reload
 web_2: npm run develop

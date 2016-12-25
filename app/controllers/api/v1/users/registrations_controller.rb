@@ -27,14 +27,14 @@ module Api
           yield resource if block_given?
           if resource.persisted?
             if resource.active_for_authentication?
-              set_flash_message! :notice, :signed_up
-              sign_up(resource_name, resource)
+              # set_flash_message! :notice, :signed_up
+              # sign_up(resource_name, resource)
               # This is the original last line in the devise sessions controller source
               # respond_with resource, location: after_sign_up_path_for(resource)
 
               # This is custom behavior. Respond by rendering User Presenter.
-              user_presenter = Api::V1::UserPresenter.new(current_user)
-              render json: user_presenter.to_json, status: :created
+              render json: payload(resource), status: :created
+              # render json: {current_user: resource.id}
             else
               set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
               expire_data_after_sign_in!
@@ -58,9 +58,9 @@ module Api
         # end
 
         # DELETE /resource
-        # def destroy
-        #   super
-        # end
+        def destroy
+          super
+        end
 
         # GET /resource/cancel
         # Forces the session data which is usually expired after sign

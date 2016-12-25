@@ -15,10 +15,9 @@ function serializeParams (obj, prefix) {
   return str.join("&");
 }
 
-export async function getRequest(baseUrl, params = {}) {
+export async function getRequest(baseUrl, params = {}, auth_token) {
   const queryString = serializeParams(params);
   const urlString = `${baseUrl}?${queryString}`;
-
   let fullResponse;
   const body = await fetch(urlString, {
     credentials: 'include',
@@ -26,6 +25,7 @@ export async function getRequest(baseUrl, params = {}) {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'X-CSRF-Token': token,
+      'Authorization': `Bearer ${auth_token}`
     },
     method: 'GET',
     mode: 'cors',

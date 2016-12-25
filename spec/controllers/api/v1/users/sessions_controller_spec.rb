@@ -4,7 +4,6 @@ module Api
   module V1
     module Users
       RSpec.describe SessionsController do
-
         before do
           # This is required because we are bypassing the router to test custom
           # logic in the devise controller methods
@@ -13,42 +12,27 @@ module Api
 
         describe "#create" do
           context "with an existing user" do
-            let!(:user) { User.create(email: "first@gmail.com", password: "password") }
+            let!(:user) { create(:user) }
 
             context "and valid login params" do
               let(:params) {{
                 user: {
                   email: user.email,
-                  password: "password"
+                  password: user.password
                 },
                 format: :json
               }}
-              let(:user_presenter_mock) { double Api::V1::UserPresenter }
-              let(:successful_response) { { status: "success" }.to_json }
-
-              before do
-                expect(Api::V1::UserPresenter)
-                  .to receive(:new)
-                  .and_return(user_presenter_mock)
-                expect(user_presenter_mock)
-                  .to receive(:to_json)
-                  .and_return(successful_response)
-              end
-
-              it "signs in the user" do
-                post :create, params: params
-                user.reload
-                expect(user.current_sign_in_at).to be_truthy
-              end
 
               it "returns a status of 201" do
                 post :create, params: params
-                expect(response).to have_http_status 201
+                expect(response).to have_http_status 200
               end
 
-              it "initializes user presenter and renders the value of .to_json" do
+              let(:expected_valid_token) { "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxfQ.__axIF2iO7Ng_Z9DZ-XnGyrjpdELL4X5OOsQ-xSn-bo" }
+              it "it returns a valid JWT" do
                 post :create, params: params
-                expect(response.body).to eq successful_response
+                body = JSON.parse(response.body).with_indifferent_access
+                expect(body['auth_token']).to eq expected_valid_token
               end
             end
 
@@ -61,17 +45,15 @@ module Api
                 format: :json
               }}
 
-              it "does not sign in the user" do
-                post :create, params: params
-                user.reload
-                expect(user.current_sign_in_at).to be_falsy
-              end
-
               it "returns an error with a status 401" do
                 post :create, params: params
                 expect(response).to have_http_status 401
+              end
+            #
+              it "returns an error" do
+                post :create, params: params
                 body = JSON.parse(response.body).with_indifferent_access
-                expect(body[:error]).to eq "Invalid Email or password."
+                expect(body[:errors]).to eq ["Invalid Email / Password"]
               end
             end
 
@@ -98,13 +80,13 @@ module Api
                   expect(response).to have_http_status 401
                 end
 
-                it "returns an error with a status 401" do
+                it "returns an error" do
                   post :create, params: params
-                  expect(response).to have_http_status 401
                   body = JSON.parse(response.body).with_indifferent_access
-                  expect(body[:error]).to eq "Invalid Email or password."
+                  expect(body[:errors]).to eq ["Invalid Email / Password"]
                 end
               end
+            # end
 
               context "and invalid login parameter" do
                 context "email" do
@@ -129,11 +111,10 @@ module Api
                     expect(response).to have_http_status 401
                   end
 
-                  it "returns an error with a status 401" do
+                  it "returns an error" do
                     post :create, params: params
-                    expect(response).to have_http_status 401
                     body = JSON.parse(response.body).with_indifferent_access
-                    expect(body[:error]).to eq "Invalid Email or password."
+                    expect(body[:errors]).to eq ["Invalid Email / Password"]
                   end
                 end
 
@@ -159,11 +140,10 @@ module Api
                     expect(response).to have_http_status 401
                   end
 
-                  it "returns an error with a status 401" do
+                  it "returns an error" do
                     post :create, params: params
-                    expect(response).to have_http_status 401
                     body = JSON.parse(response.body).with_indifferent_access
-                    expect(body[:error]).to eq "Invalid Email or password."
+                    expect(body[:errors]).to eq ["Invalid Email / Password"]
                   end
                 end
               end
